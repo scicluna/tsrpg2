@@ -10,10 +10,11 @@ enum OutcomeType {
     dmg, //expects value of integer
     loot, //expects value of Loot
     xp, // expects value of integer
-    ability // expects value of Ability
+    ability, // expects value of Ability
+    none // no outcome
 }
 
-type Outcome = HpOutcome | DmgOutcome | LootOutcome | XpOutcome | AbilityOutcome;
+type Outcome = HpOutcome | DmgOutcome | LootOutcome | XpOutcome | AbilityOutcome | StatusOutcome | NoOutcome;
 
 interface BaseOutcome {
     type: OutcomeType;
@@ -42,4 +43,13 @@ interface XpOutcome extends BaseOutcome {
 interface AbilityOutcome extends BaseOutcome {
     type: OutcomeType.ability;
     value: Ability;
+}
+
+interface StatusOutcome extends BaseOutcome {
+    type: OutcomeType.status;
+    value: StatusEffect;
+}
+
+interface NoOutcome extends BaseOutcome {
+    type: OutcomeType.none;
 }

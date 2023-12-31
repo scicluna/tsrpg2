@@ -6,6 +6,7 @@ enum ItemType  {
 interface Item {
     id: string;
     name: string;
+    description: string;
     itemType: ItemType;
     price: number;
 }
@@ -21,9 +22,22 @@ enum ConsumableType {
 
 interface Consumable extends Item {
     effects: Outcome[];
+    self?: boolean;
+    aoe?: boolean;
 }
 
 ///////////////////////////
+
+enum EquipmentType {
+    Weapon, 
+    Chest,
+    Legs,
+    Head,
+    Cloak,
+    Accessory,
+    Gloves,
+    Boots
+}
 
 interface Equipment extends Item {
     equipmentType: EquipmentType;
@@ -31,8 +45,9 @@ interface Equipment extends Item {
 }
 
 interface StatChange {
-    health?: number;
-    mana?: number;
-    attack?: number;
-    defense?: number;
+    hp?: number;
+    mp?: number;
+    dmg?: number;
+    def?: number;
 }
+

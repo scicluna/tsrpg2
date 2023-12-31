@@ -1,5 +1,5 @@
 enum ConditionType {
-    HasEnoughMoney,
+    HasMoney,
     HasAbility,
     ArrivedInTime,
     HasMinimumLevel
@@ -9,8 +9,8 @@ interface BaseCondition {
     type: ConditionType;
 }
 
-interface HasEnoughMoneyCondition extends BaseCondition {
-    type: ConditionType.HasEnoughMoney;
+interface HasMoneyCondition extends BaseCondition {
+    type: ConditionType.HasMoney;
     value: number; // Required amount of money
 }
 
@@ -29,4 +29,4 @@ interface HasMinimumLevelCondition extends BaseCondition {
     value: number; // Required level
 }
 
-type Condition = HasEnoughMoneyCondition | HasAbilityCondition | ArrivedInTimeCondition | HasMinimumLevelCondition;
+type Condition = HasMoneyCondition | HasAbilityCondition | ArrivedInTimeCondition | HasMinimumLevelCondition;

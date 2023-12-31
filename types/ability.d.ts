@@ -21,19 +21,19 @@ enum DamageType {
 interface BaseAbility {
     name: string;
     type: AbilityType;
+    damageMult?: number;
+    damageBonus?: number;
+    damageType?: DamageType;
+    self?: boolean;
     aoe: boolean;
-    damageType: DamageType;
+    statusEffect?: StatusEffect;
 }
 
 interface MagicAbility extends BaseAbility {
     type: AbilityType.Magic;
     cost: number;
-    damage: number;
-    statusEffect?: StatusEffect;
 }
 
 interface SkillAbility extends BaseAbility {
     type: AbilityType.Skill;
-    damage: number;
-    statusEffect?: StatusEffect;
 }

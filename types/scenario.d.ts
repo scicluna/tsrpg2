@@ -7,16 +7,17 @@ interface BaseScenario {
     id: number;
     name: string;
     type: ScenarioType;
-    description: string;
     completed: boolean;
 }
 
 interface EncounterScenario extends BaseScenario {
     monsters: Monster[];
     loot: string[];
+    music?: string;
 }
 
 interface DialogueScenario extends BaseScenario {
+    description: string;
     options: Option[];
 }
 
