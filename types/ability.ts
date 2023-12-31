@@ -1,9 +1,9 @@
-enum AbilityType {
-    Magic,
-    Skill
+export enum AbilityType {
+    Magic = 'Magic',
+    Skill = 'Skill'
 }
 
-enum DamageType {
+export enum DamageType {
     Physical,
     Fire,
     Ice,
@@ -18,7 +18,7 @@ enum DamageType {
     Chaos
 }
 
-interface BaseAbility {
+export interface BaseAbility {
     name: string;
     type: AbilityType;
     damageMult?: number;
@@ -29,11 +29,13 @@ interface BaseAbility {
     statusEffect?: StatusEffect;
 }
 
-interface MagicAbility extends BaseAbility {
+export interface MagicAbility extends BaseAbility {
     type: AbilityType.Magic;
     cost: number;
 }
 
-interface SkillAbility extends BaseAbility {
+export interface SkillAbility extends BaseAbility {
     type: AbilityType.Skill;
 }
+
+export type Ability = MagicAbility | SkillAbility;
