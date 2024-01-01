@@ -1,9 +1,9 @@
-enum ItemType  {
+export enum ItemType  {
     Consumable,
     Equipment
 }
 
-interface Item {
+export interface Item {
     id: string;
     name: string;
     description: string;
@@ -13,14 +13,14 @@ interface Item {
 
 ////////////////////////
 
-enum ConsumableType {
+export enum ConsumableType {
     Healing,
     Mana,
     Buff,
     Debuff
 }
 
-interface Consumable extends Item {
+export interface Consumable extends Item {
     effects: Outcome[];
     self?: boolean;
     aoe?: boolean;
@@ -28,7 +28,7 @@ interface Consumable extends Item {
 
 ///////////////////////////
 
-enum EquipmentType {
+export enum EquipmentType {
     Weapon, 
     Chest,
     Legs,
@@ -39,12 +39,19 @@ enum EquipmentType {
     Boots
 }
 
-interface Equipment extends Item {
+export interface Equipment extends Item {
     equipmentType: EquipmentType;
     statBoosts: StatChange;
 }
 
-interface StatChange {
+
+export const VALID_STAT_CHANGE_KEYS: Array<keyof StatChange> = [
+    'hp', 
+    'mp', 
+    'dmg', 
+    'def'];
+
+export interface StatChange {
     hp?: number;
     mp?: number;
     dmg?: number;

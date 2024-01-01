@@ -11,7 +11,7 @@
 (flat bonus to base damage -- or empty)
 
 ## Damage Type
-(Physical, Fire, Ice, Lightning, Holy, Dark, Poison, Bleed, Earth, nWind, Water, Chaos -- or empty)
+(Physical, Fire, Ice, Lightning, Holy, Dark, Poison, Bleed, Earth, nWind, Water, Chaos, None)
 
 ## Self
 (true if targets self or false if targets enemy)

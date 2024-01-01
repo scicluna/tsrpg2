@@ -1,4 +1,5 @@
 import { AbilityType } from "@/types/ability";
+import { StatChange } from "@/types/items";
 
 export function extractSimpleString(content: string, key: string) {
     const regex = new RegExp(`## ${key}:\\s*(.+?)(\\r?\\n|$)`);
@@ -8,11 +9,11 @@ export function extractSimpleString(content: string, key: string) {
 
 export function extractSimpleNumber(content: string, key: string){
     const value = extractSimpleString(content, key);
-    return value ? parseInt(value, 10) : null;
+    return value ? parseFloat(value) : null;
 }
 
 export function parseStatusEffect(content: string) {
-    const statusEffectRegex = /## Status Effect\n- ([^\n]+)\n- ([^\n]+)\n- ([^\n]+)/;
+    const statusEffectRegex = /## Status Effect:\s*\r?\n- ([^\r\n]+)\r?\n- ([^\r\n]+)\r?\n- ([^\r\n]+)/;
     const match = content.match(statusEffectRegex);
 
     if (match) {
@@ -21,11 +22,11 @@ export function parseStatusEffect(content: string) {
         const duration = parseInt(match[2].trim(), 10);
         const statChangePart = match[3].trim().split(' ');
 
-        const statChange: { [key: string]: number } = {}; // Add index signature
+        const statChange: StatChange = {}; // Add index signature
 
         if (statChangePart.length === 2) {
             const [stat, value] = statChangePart;
-            statChange[stat] = parseInt(value, 10);
+            statChange[stat as keyof StatChange] = parseInt(value);
         }
 
         return { id, name, duration, statChange };
@@ -34,6 +35,11 @@ export function parseStatusEffect(content: string) {
     return null;
 }
 
+
 export function isAbilityType(type: AbilityType | string): type is AbilityType {
     return Object.values(AbilityType).includes(type as AbilityType);
+}
+
+export function getKeysOfType<T>(): Array<keyof T> {
+    return [] as Array<keyof T>;
 }

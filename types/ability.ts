@@ -15,7 +15,8 @@ export enum DamageType {
     Earth,
     Wind,
     Water,
-    Chaos
+    Chaos ,
+    None
 }
 
 export interface BaseAbility {
