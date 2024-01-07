@@ -21,6 +21,7 @@ export enum ConsumableType {
 }
 
 export interface Consumable extends Item {
+    consumableType: ConsumableType;
     effects: Outcome[];
     self?: boolean;
     aoe?: boolean;

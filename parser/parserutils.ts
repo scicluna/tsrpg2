@@ -43,3 +43,17 @@ export function isAbilityType(type: AbilityType | string): type is AbilityType {
 export function getKeysOfType<T>(): Array<keyof T> {
     return [] as Array<keyof T>;
 }
+
+export function extractSimpleList(content: string, key: string) {
+    const regex = `/## ${key}:\n(?:- \((.*?)\)\n)+/g`;
+    const match = content.match(regex);
+
+    console.log(match);
+}
+
+export function extractOutcomes(content: string) {
+    const regex = /## Outcomes:[\r\n]+([\s\S]+?)(?=\r?\n\r?\n)/;
+    const match = content.match(regex);
+
+    console.log(match);
+}
