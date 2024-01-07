@@ -1,14 +1,15 @@
 import { AbilityType } from "@/types/ability";
 import { StatChange } from "@/types/items";
+import { OutcomeType } from "@/types/optionoutcome";
 
-export function extractSimpleString(content: string, key: string) {
+export function extractString(content: string, key: string) {
     const regex = new RegExp(`## ${key}:\\s*(.+?)(\\r?\\n|$)`);
     const match = content.match(regex);
     return match ? match[1].trim() : null;
 }
 
-export function extractSimpleNumber(content: string, key: string){
-    const value = extractSimpleString(content, key);
+export function extractNumber(content: string, key: string){
+    const value = extractString(content, key);
     return value ? parseFloat(value) : null;
 }
 
@@ -44,16 +45,39 @@ export function getKeysOfType<T>(): Array<keyof T> {
     return [] as Array<keyof T>;
 }
 
-export function extractSimpleList(content: string, key: string) {
-    const regex = `/## ${key}:\n(?:- \((.*?)\)\n)+/g`;
+export function extractList(content: string, listName: string): { [key: string]: string|number}[] {
+    const regex = new RegExp(`## ${listName}:[\\r\\n]+([\\s\\S]+?)(?=\\r?\\n\\r?\\n)`);
     const match = content.match(regex);
+    const results = [];
 
-    console.log(match);
+    if (match){
+        const items = match[1].split('\r\n');
+
+        for (let item of items){
+            item = item.replace('- ', '')
+            const [key, value] = item.split(' ');
+            results.push({[key]: value});
+        }
+    }
+    return results;
 }
 
-export function extractOutcomes(content: string) {
-    const regex = /## Outcomes:[\r\n]+([\s\S]+?)(?=\r?\n\r?\n)/;
-    const match = content.match(regex);
+export function parseOutcomes(type: OutcomeType, value: string) {
+    switch (type) {
+        case "hp":
+        case "dmg":
+        case "xp":
+            return { type, value: parseInt(value) };
+        case "loot":
+        case "ability":
+        case "status":
+            return { type, value };
+        case "none":
+            return { type, value: null };
+    }
+}
 
-    console.log(match);
+//e.x. for type = "hp"|"dmg"|"xp"
+export function isPartOfStringType(validatorArray: string[], type: string): boolean {
+    return validatorArray.includes(type);
 }

@@ -1,7 +1,12 @@
-export enum ItemType  {
-    Consumable,
-    Equipment
-}
+import { Outcome } from "./optionoutcome";
+
+export type ItemType = "consumable" | "equipment";
+export type ConsumableType = "healing" | "mana" | "buff" | "debuff";
+export type EquipmentType = "weapon" | "chest" | "legs" | "head" | "cloak" | "accessory" | "gloves" | "boots";
+export const VALID_ITEM_TYPES: ItemType[] = ["consumable", "equipment"];
+export const VALID_CONSUMABLE_TYPES: ConsumableType[] = ["healing", "mana", "buff", "debuff"];
+export const VALID_EQUIPMENT_TYPES: EquipmentType[] = ["weapon", "chest", "legs", "head", "cloak", "accessory", "gloves", "boots"];
+
 
 export interface Item {
     id: string;
@@ -13,13 +18,6 @@ export interface Item {
 
 ////////////////////////
 
-export enum ConsumableType {
-    Healing,
-    Mana,
-    Buff,
-    Debuff
-}
-
 export interface Consumable extends Item {
     consumableType: ConsumableType;
     effects: Outcome[];
@@ -28,17 +26,6 @@ export interface Consumable extends Item {
 }
 
 ///////////////////////////
-
-export enum EquipmentType {
-    Weapon, 
-    Chest,
-    Legs,
-    Head,
-    Cloak,
-    Accessory,
-    Gloves,
-    Boots
-}
 
 export interface Equipment extends Item {
     equipmentType: EquipmentType;

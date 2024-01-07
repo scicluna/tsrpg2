@@ -1,6 +1,6 @@
 import fs from 'fs/promises';
 import { Ability } from "@/types/ability";
-import { extractDamageTypes, extractSimpleNumber } from './parserutils';
+import { extractDamageTypes, extractNumber } from './parserutils';
 
 export async function parseMonster(abilityDict: { [key: string]: Ability }) {
     const monsterFiles = await fs.readdir('./world/monsters', 'utf-8');
@@ -15,17 +15,17 @@ export async function parseMonster(abilityDict: { [key: string]: Ability }) {
             throw new Error(`Duplicate ability name: ${name}`);
         } 
 
-        const hp = extractSimpleNumber(fileContent, 'HP');
+        const hp = extractNumber(fileContent, 'HP');
         if (!hp){
             throw new Error(`Required field 'HP' is missing in file ${fileName}`);
         }
 
-        const damage = extractSimpleNumber(fileContent, 'Damage');
+        const damage = extractNumber(fileContent, 'Damage');
         if (!damage){
             throw new Error(`Required field 'Damage' is missing in file ${fileName}`);
         }
 
-        const defense = extractSimpleNumber(fileContent, 'Defense');
+        const defense = extractNumber(fileContent, 'Defense');
         if (!defense){
             throw new Error(`Required field 'Defense' is missing in file ${fileName}`);
         }
