@@ -1,6 +1,6 @@
 import fs from 'fs/promises';
-import { extractNumber, extractString, isAbilityType, parseStatusEffect } from './parserutils';
-import { Ability, AbilityType, DamageType, MagicAbility, SkillAbility } from '@/types/ability';
+import { extractNumber, extractString, isTypeOf, parseStatusEffect } from './parserutils';
+import { Ability, AbilityType, DamageType, MagicAbility, SkillAbility, VALID_ABILITY_TYPE, VALID_DAMAGE_TYPE } from '@/types/ability';
 import { StatChange, VALID_STAT_CHANGE_KEYS } from '@/types/items';
 
 export async function abilityParser(){
@@ -21,8 +21,7 @@ export async function abilityParser(){
             throw new Error(`Required field 'Ability Type' is missing in file ${fileName}`);
         } 
 
-        const abilityType = Object.values(AbilityType).find(enumValue => enumValue === rawAbilityType);
-        if (!abilityType){
+        if (rawAbilityType != 'Magic' && rawAbilityType != 'Skill'){
             throw new Error(`Invalid ability type '${rawAbilityType}' in file ${fileName}`);
         } 
 
@@ -32,12 +31,11 @@ export async function abilityParser(){
         const damageBonus = extractNumber(fileContent, 'Damage Bonus') || undefined;
     
         const rawDamageType = extractString(fileContent, 'Damage Type') || undefined;
-        let damageType = undefined;
-        if (rawDamageType){
-            damageType =  Object.values(DamageType).find(enumValue => enumValue === rawDamageType);
-            if (!damageType){
-                throw new Error(`Invalid damage type '${rawDamageType}' in file ${fileName}`);
-            }
+        if (!rawDamageType){
+            throw new Error(`Required field 'Damage Type' is missing in file ${fileName}`);
+        }
+        if (!isTypeOf<DamageType>(VALID_DAMAGE_TYPE, rawDamageType)){
+            throw new Error(`Invalid damage type '${rawDamageType}' in file ${fileName}`);
         }
 
         const self = extractString(fileContent, 'Self')?.trim().toLocaleLowerCase() === 'true' || false;
@@ -53,34 +51,34 @@ export async function abilityParser(){
             }   
         }
 
-        if (isAbilityType(abilityType)) {
-            if (abilityType === AbilityType.Magic) {
+        if (isTypeOf<AbilityType>(VALID_ABILITY_TYPE, rawAbilityType)) {
+            if (rawAbilityType === "Magic") {
                 const magicAbility: MagicAbility = {
                     name,
-                    type: abilityType,
+                    type: rawAbilityType,
                     cost: cost || 0,
                     damageMult: damageMultiplier,
                     damageBonus,
-                    damageType: damageType as DamageType,
+                    damageType: rawDamageType,
                     self,
                     aoe,
                     statusEffect,
                 };
                 abilityDict[name] = magicAbility;
-            } else if (abilityType === AbilityType.Skill) {
+            } else if (rawAbilityType === "Skill") {
                 const skillAbility: SkillAbility = {
                     name,
-                    type: abilityType,
+                    type: rawAbilityType,
                     damageMult: damageMultiplier,
                     damageBonus,
-                    damageType: damageType as DamageType,
+                    damageType: rawDamageType,
                     self,
                     aoe,
                     statusEffect,
                 };
                 abilityDict[name] = skillAbility;
             } else {
-                throw new Error(`Unknown ability type '${abilityType}' in file ${fileName}`);
+                throw new Error(`Unknown ability type '${rawAbilityType}' in file ${fileName}`);
             }
         }
     }

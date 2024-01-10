@@ -37,12 +37,12 @@ export function parseStatusEffect(content: string) {
 }
 
 
-export function isAbilityType(type: AbilityType | string): type is AbilityType {
-    return Object.values(AbilityType).includes(type as AbilityType);
-}
-
 export function getKeysOfType<T>(): Array<keyof T> {
     return [] as Array<keyof T>;
+}
+
+export function isTypeOf<T>(validatorArray: any[], value: any): value is T {
+    return validatorArray.includes(value);
 }
 
 export function extractList(content: string, listName: string): { [key: string]: string|number}[] {

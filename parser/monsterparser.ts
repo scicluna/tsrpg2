@@ -1,8 +1,9 @@
 import fs from 'fs/promises';
-import { Ability } from "@/types/ability";
-import { extractDamageTypes, extractNumber } from './parserutils';
+import { Ability, DamageType, VALID_DAMAGE_TYPE } from "@/types/ability";
+import {extractList, extractNumber, isTypeOf } from './parserutils';
+import { Item } from '@/types/items';
 
-export async function parseMonster(abilityDict: { [key: string]: Ability }) {
+export async function parseMonster(abilityDict: { [key: string]: Ability }, itemDict: { [key: string]: Item }) {
     const monsterFiles = await fs.readdir('./world/monsters', 'utf-8');
     const monsterDict: { [key: string]: Ability } = {};
 
@@ -30,9 +31,27 @@ export async function parseMonster(abilityDict: { [key: string]: Ability }) {
             throw new Error(`Required field 'Defense' is missing in file ${fileName}`);
         }
 
-        extractDamageTypes(fileContent, 'Resistances'); 
+        const resistances = extractList(fileContent, 'Resistances') || [];
+        resistances.forEach((resistance) => {
+            const resistanceType = Object.keys(resistance)[0];
+            if (!isTypeOf<DamageType>(VALID_DAMAGE_TYPE, resistanceType)){
+                throw new Error(`Invalid damage type '${resistance.type}' in file ${fileName}`);
+            }
+        });
 
-        extractDamageTypes(fileContent, 'Vulnerabilities');
+        const vulnerabilities = extractList(fileContent, 'Vulnerabilities') || [];
+        vulnerabilities.forEach((vulnerability) => {
+            const vulnerabilityType = Object.keys(vulnerability)[0];
+            if (!isTypeOf<DamageType>(VALID_DAMAGE_TYPE, vulnerabilityType)){
+                throw new Error(`Invalid damage type '${vulnerability.type}' in file ${fileName}`);
+            }
+        });
+
+
+
+        
+
+
 
     }
 }
