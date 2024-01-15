@@ -8,24 +8,22 @@
 0
 
 ## Resistances:
-- Chaos
+- Chaos 1
 
-## Vulnerabilities:
-- Bleed
+## Weaknesses:
+- Bleed 1
 
 ## Abilities:
-([[ability]])
-([[ability]])
+[[basic]]
 
 ## Loot:
-[[item]]
-[[item]]
+[[potion]]
 
 ## Gold:
-(gold)
+5
 
 ## Exp:
-(exp)
+5
 
 ## Sprite:
-([[sprite]])
+[[bandit.jpg]]

@@ -1,6 +1,6 @@
 interface Creature {
     name: string;
-    health: number;
+    hp: number;
     damage: number;
     defense: number;
     abilities: Ability[];
@@ -13,7 +13,7 @@ interface Creature {
 interface Monster extends Creature {
     loot: Item[];
     gold?: number;
-    xp: number;
+    exp: number;
 }
 
 interface Hero extends Creature {

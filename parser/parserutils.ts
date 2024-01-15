@@ -1,4 +1,3 @@
-import { AbilityType } from "@/types/ability";
 import { StatChange } from "@/types/items";
 import { OutcomeType } from "@/types/optionoutcome";
 
@@ -80,4 +79,23 @@ export function parseOutcomes(type: OutcomeType, value: string) {
 //e.x. for type = "hp"|"dmg"|"xp"
 export function isPartOfStringType(validatorArray: string[], type: string): boolean {
     return validatorArray.includes(type);
+}
+
+export function extractFromDict<T>(dict: { [key: string]: T }, content: string, description: string, fileName: string): T[] {
+    const regex = new RegExp(`## ${description}:[\\r\\n]+([\\s\\S]+?)(?=\\r?\\n\\r?\\n)`);
+    const match = content.match(regex);
+    const results = [];
+
+    if (match){
+        const things = match[1].split('\r\n');
+
+        for (let thing of things){
+            thing = thing.replace('- ', '').replace('[[', '').replace(']]', '');
+            if (!dict[thing]){
+                throw new Error(`Invalid ${description}Dict item: '${thing}' in file ${fileName}`);
+            }
+            results.push(dict[thing]);
+        }
+    }
+    return results;
 }

@@ -7,6 +7,7 @@ export async function parseAll(){
         const abilityDict = await abilityParser();
         const itemDict = await itemParser();
         const monsterDict = await parseMonster(abilityDict!, itemDict!);
+        console.log(monsterDict)
     } catch (error) {
         console.log(error)
     }

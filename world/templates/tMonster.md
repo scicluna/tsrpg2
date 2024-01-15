@@ -11,7 +11,7 @@
 - (Physical, Fire, Ice, Lightning, Holy, Dark, Poison, Bleed, Earth, Wind, Water, Chaos -- or empty)
 - (Physical, Fire, Ice, Lightning, Holy, Dark, Poison, Bleed, Earth, Wind, Water, Chaos -- or empty)
 
-## Vulnerabilities:
+## Weaknesses:
 - (Physical, Fire, Ice, Lightning, Holy, Dark, Poison, Bleed, Earth, Wind, Water, Chaos -- or empty)
 - (Physical, Fire, Ice, Lightning, Holy, Dark, Poison, Bleed, Earth, Wind, Water, Chaos -- or empty)
 
