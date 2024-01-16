@@ -1,10 +1,9 @@
-import { Ability } from "./ability";
-import { Item } from "./items";
+import { Condition } from "./conditions";
 
 export interface Option {
     description: string;
     outcomes: Outcome[];
-    linkedScenario: Scenario|null;
+    linkedScenario: string|null;
     conditions?: Condition[]; 
 }
 
@@ -12,10 +11,12 @@ export type OutcomeType =
     "hp" | //expects value of integer
     "dmg" | //expects value of integer
     "loot"| //expects value of Loot
-    "xp"| // expects value of integer
+    "exp"| // expects value of integer
     "ability"| // expects value of Ability
     "status"| // expects value of StatusEffect
     "none" // no outcome
+
+export const VALID_OUTCOME_TYPES: OutcomeType[] = ["hp", "dmg", "loot", "exp", "ability", "status", "none"];
  
 
 export type Outcome = HpOutcome | DmgOutcome | LootOutcome | XpOutcome | AbilityOutcome | StatusOutcome | NoOutcome;
@@ -40,7 +41,7 @@ interface LootOutcome extends BaseOutcome {
 }
 
 interface XpOutcome extends BaseOutcome {
-    type: "xp";
+    type: "exp";
     value: number;
 }
 

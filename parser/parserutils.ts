@@ -1,8 +1,10 @@
-import { StatChange } from "@/types/items";
-import { OutcomeType } from "@/types/optionoutcome";
+import { Ability } from "@/types/ability";
+import { Condition, NoCondition, ConditionType, HasMoneyCondition, HasAbilityCondition, ArrivedInTimeCondition, HasMinimumLevelCondition, HasFlagCondition, VALID_CONDITION_TYPE } from "@/types/conditions";
+import { Item, StatChange } from "@/types/items";
+import { Option, Outcome, OutcomeType, VALID_OUTCOME_TYPES } from "@/types/optionoutcome";
 
 export function extractString(content: string, key: string) {
-    const regex = new RegExp(`## ${key}:\\s*(.+?)(\\r?\\n|$)`);
+    const regex = new RegExp(`## ${key}:?\\s*(.+?)(\\r?\\n|$)`);
     const match = content.match(regex);
     return match ? match[1].trim() : null;
 }
@@ -65,7 +67,7 @@ export function parseOutcomes(type: OutcomeType, value: string) {
     switch (type) {
         case "hp":
         case "dmg":
-        case "xp":
+        case "exp":
             return { type, value: parseInt(value) };
         case "loot":
         case "ability":
@@ -98,4 +100,71 @@ export function extractFromDict<T>(dict: { [key: string]: T }, content: string, 
         }
     }
     return results;
+}
+
+export function extractOptions(content: string, abilityDict: {[key: string]: Ability}, itemDict: {[key: string]: Item}, monsterDict: {[key: string]: Monster}, fileName: string): Option[]{
+    const optionsSectionRegex = new RegExp(`## Options:\r?\n\r?\n([\\s\\S]*?)$`, 'g');
+    const optionsSectionMatch = optionsSectionRegex.exec(content);
+
+    if (!optionsSectionMatch) return [];
+
+    const optionRegex = /### Option:\r?\nDescription:\s*\r?\n([\s\S]*?)(?:\r?\n\r?\nOutcomes:\s*\r?\n- ([\s\S]*?))?(?:\r?\n\r?\nConditions:\s*\r?\n- ([\s\S]*?))?(?:\r?\n\r?\nLinked Scenario:\s*\r?\n(\[\[[\s\S]*?\]\])?)/gs;
+    const optionsContent = optionsSectionMatch[1];
+    const options: Option[] = [];
+    const optionMatches = [...optionsContent.matchAll(optionRegex)];
+
+    for (const match of optionMatches) {
+        const outcomes = match[2].split('\r\n- ') ?? ['none'];
+        const outcomeObjects: Outcome[] = [];
+
+        for (const outcome of outcomes){
+            const [type, value] = outcome.split(' ');
+            if (!isPartOfStringType(VALID_OUTCOME_TYPES, type)){
+                throw new Error(`Invalid outcome type '${type}' in file ${fileName}`);
+            }            
+            const outcomeObject = parseOutcomes(type as OutcomeType, value) as Outcome;
+            outcomeObjects.push(outcomeObject); 
+        }
+
+        const conditions = match[3].split('\r\n- ') ?? ['none'];
+        const conditionObjects: Condition[] = [];
+
+        for (const condition of conditions){
+            const [type, value] = condition.split(' ');
+            if (!isPartOfStringType(VALID_CONDITION_TYPE, type)){
+                throw new Error(`Invalid condition type '${type}' in file ${fileName}`);
+            }
+            const conditionObject = parseCondition(type as ConditionType,  value);
+            conditionObjects.push(conditionObject); 
+        }
+
+        options.push({
+            description: match[1].trim(),
+            outcomes: outcomeObjects,
+            conditions: conditionObjects,
+            linkedScenario: match[4]?.trim().replace('[[', '').replace(']]', '') || ''
+        });
+    }
+
+    return options;
+}
+
+function parseCondition(type: ConditionType, value: string): Condition | NoCondition {
+
+    switch (type) {
+        case 'HasMoney':
+            return { type: "HasMoney", value: Number(value) } as HasMoneyCondition; 
+        case 'HasAbility':
+            return { type: "HasAbility", value: value } as HasAbilityCondition;
+        case 'ArrivedInTime':
+            return { type: "ArrivedInTime", value: Number(value) } as ArrivedInTimeCondition;
+        case 'HasMinimumLevel':
+            return { type: "HasMinimumLevel", value: Number(value) } as HasMinimumLevelCondition;
+        case 'HasFlag':
+            return { type: "HasFlag", value: value } as HasFlagCondition;
+        case 'none':
+            return { type: "none" } as NoCondition;
+        default:
+            throw new Error(`Unknown condition type: ${type}`);
+    }
 }

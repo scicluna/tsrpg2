@@ -16,12 +16,12 @@
 - (Physical, Fire, Ice, Lightning, Holy, Dark, Poison, Bleed, Earth, Wind, Water, Chaos -- or empty)
 
 ## Abilities:
-([[ability]])
-([[ability]])
+- ([[ability]])
+- ([[ability]])
 
 ## Loot:
-[[item]]
-[[item]]
+- [[item]]
+- [[item]]
 
 ## Gold:
 (gold)

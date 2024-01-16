@@ -14,10 +14,10 @@
 - Bleed 1
 
 ## Abilities:
-[[basic]]
+- [[basic]]
 
 ## Loot:
-[[potion]]
+- [[potion]]
 
 ## Gold:
 5

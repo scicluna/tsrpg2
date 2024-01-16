@@ -1,29 +1,33 @@
-## Description
+## Description:
 (initial text for dialogue)
 
-## Options
+## Options:
 
-### (Option Name)
-Description: (displayed text for choice)
+### Option:
+Description: 
+(displayed text for choice)
 
 Outcomes: 
-- (outcome: hp/dmg/loot/xp/ability/status/none) (num/num/[[item]]/num/[[ability]]/string -- empty if none)
-- (outcome: hp/dmg/loot/xp/ability/status/none) (num/num/[[item]]/num/[[ability]]/string  -- empty if none)
-- (outcome: hp/dmg/loot/xp/ability/status/none) (num/num/[[item]]/num/[[ability]]/string  -- empty if none)
+- (outcome: hp/dmg/loot/exp/ability/status/none) (num/num/[[item]]/num/[[ability]]/string -- empty if none)
+- (outcome: hp/dmg/loot/exp/ability/status/none) (num/num/[[item]]/num/[[ability]]/string  -- empty if none)
+- (outcome: hp/dmg/loot/exp/ability/status/none) (num/num/[[item]]/num/[[ability]]/string  -- empty if none)
 
-Condition: (HasMoney, HasAbility, ArrivedInTime, HasMinimumLevel) (num/[[ability]]/num/num)
+Conditions: 
+ - (HasMoney, HasAbility, ArrivedInTime, HasMinimumLevel, none) (num/[[ability]]/num/num/blank)
 
 Linked Scenario: ([[Link]] or nothing)
 
-### (Option Name)
-Description: (displayed text for choice)
+### Option:
+Description: 
+(displayed text for choice)
 
 Outcomes: 
-- (outcome: hp/dmg/loot/xp/ability/status/none) (num/num/[[item]]/num/[[ability]]/string -- empty if none)
-- (outcome: hp/dmg/loot/xp/ability/status/none) (num/num/[[item]]/num/[[ability]]/string  -- empty if none)
-- (outcome: hp/dmg/loot/xp/ability/status/none) (num/num/[[item]]/num/[[ability]]/string  -- empty if none)
+- (outcome: hp/dmg/loot/exp/ability/status/none) (num/num/[[item]]/num/[[ability]]/string -- empty if none)
+- (outcome: hp/dmg/loot/exp/ability/status/none) (num/num/[[item]]/num/[[ability]]/string  -- empty if none)
+- (outcome: hp/dmg/loot/exp/ability/status/none) (num/num/[[item]]/num/[[ability]]/string  -- empty if none)
 
-Condition: (HasMoney, HasAbility, ArrivedInTime, HasMinimumLevel) (num/[[ability]]/num/num)
+Conditions:
+- (HasMoney, HasAbility, ArrivedInTime, HasMinimumLevel, none) (num/[[ability]]/num/num/blank)
 
 Linked Scenario: ([[Link]] or nothing)
 
