@@ -168,3 +168,20 @@ function parseCondition(type: ConditionType, value: string): Condition | NoCondi
             throw new Error(`Unknown condition type: ${type}`);
     }
 }
+
+export function extractConnectedLocations(content: string): {locationName: string, distance: number}[]{
+    const regex = new RegExp(`## Connected Locations:[\\r\\n]+([\\s\\S]+?)(?=\\r?\\n\\r?\\n)`);
+    const match = content.match(regex);
+    const results = [];
+
+    if (match){
+        const locations = match[1].split('\r\n');
+
+        for (let location of locations){
+            location = location.replace('- ', '');
+            const [locationName, distance] = location.split(' ');
+            results.push({locationName, distance: parseInt(distance)});
+        }
+    }
+    return results;
+}

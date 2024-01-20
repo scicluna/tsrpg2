@@ -1,9 +1,10 @@
 import { parseAll } from "@/parser/main"
 
-export default function Home() {
+export default async function Home() {
 
-  const Dicts = parseAll();
-  
+  const worldLedger = await parseAll();
+  console.log(worldLedger)
+
   return (
      <main>hi</main>
   )

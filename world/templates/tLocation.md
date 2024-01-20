@@ -1,12 +1,12 @@
 ## Scenario:
-- ([[Scenario]])
+([[Scenario]])
 
 ## Connected Locations:
 - ([[Location]]) (distance)
 - ([[Location]]) (distance)
 
 ## Background:
-- ([[BG Image]])
+([[BG Image]])
 
 ## Music:
-- ([[MP4 File]])
+([[MP4 File]])

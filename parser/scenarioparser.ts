@@ -1,6 +1,4 @@
 import fs from 'fs/promises';
-import { Ability } from "@/types/ability";
-import { Item } from "@/types/items";
 import { extractFromDict, extractOptions, extractString } from './parserutils';
 import { DialogueScenario, EncounterScenario } from '@/types/scenario';
 
@@ -19,7 +17,7 @@ export async function parseScenario( monsterDict: {[key: string]: Monster}){
 
             const name = fileName.trim().toLowerCase().replace('.md', '');
             if (dialogueDict[name]){
-                throw new Error(`Duplicate ability name: ${name}`);
+                throw new Error(`Duplicate dialogue name: ${name}`);
             } 
 
             const description = extractString(fileContent, 'Description') || "no description";
@@ -42,7 +40,7 @@ export async function parseScenario( monsterDict: {[key: string]: Monster}){
 
             const name = fileName.trim().toLowerCase().replace('.md', '');
             if (encounterDict[name]){
-                throw new Error(`Duplicate ability name: ${name}`);
+                throw new Error(`Duplicate encounter name: ${name}`);
             }
 
             const description = extractString(fileContent, 'Description') || "no description";
