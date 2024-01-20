@@ -1,10 +1,10 @@
 import fs from 'fs/promises';
 import { Ability } from "@/types/ability";
 import { Item } from "@/types/items";
-import { extractOptions, extractString } from './parserutils';
-import { DialogueScenario } from '@/types/scenario';
+import { extractFromDict, extractOptions, extractString } from './parserutils';
+import { DialogueScenario, EncounterScenario } from '@/types/scenario';
 
-export async function parseScenario( abilityDict: {[key: string]: Ability}, itemDict: {[key: string]: Item}, monsterDict: {[key: string]: Monster}){
+export async function parseScenario( monsterDict: {[key: string]: Monster}){
     const dialogues = await parseDialogues();
     const encounters = await parseEncounters();
     return {...dialogues, ...encounters};
@@ -24,7 +24,7 @@ export async function parseScenario( abilityDict: {[key: string]: Ability}, item
 
             const description = extractString(fileContent, 'Description') || "no description";
 
-            const options = extractOptions(fileContent, abilityDict, itemDict, monsterDict, fileName);
+            const options = extractOptions(fileContent, fileName);
 
             dialogueDict[name] = {name, type: "Dialogue", description, options, completed: false };
         }
@@ -33,7 +33,26 @@ export async function parseScenario( abilityDict: {[key: string]: Ability}, item
     }
     
     async function parseEncounters(){
-        return {};
+        const encounterFiles = await fs.readdir(`./world/scenarios/encounters`, 'utf-8');
+        const encounterDict: {[key: string]: EncounterScenario} = {};
+
+        for (const fileName of encounterFiles){
+            const filePath = `./world/scenarios/encounters/${fileName}`;
+            const fileContent = await fs.readFile(filePath, 'utf-8');
+
+            const name = fileName.trim().toLowerCase().replace('.md', '');
+            if (encounterDict[name]){
+                throw new Error(`Duplicate ability name: ${name}`);
+            }
+
+            const description = extractString(fileContent, 'Description') || "no description";
+
+            const monsters = extractFromDict<Monster>(monsterDict, fileContent, 'Monsters', fileName);
+            const music = extractString(fileContent, 'Music')?.replace('[[', '').replace(']]', '') || "no music";
+
+            encounterDict[name] = {name, type: "Encounter", description, monsters, music, completed: false};
+        }
+        return encounterDict;
     }
 }
 

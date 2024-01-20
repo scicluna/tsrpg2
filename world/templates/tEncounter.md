@@ -1,3 +1,6 @@
+## Description:
+(text)
+
 ## Monsters:
 - ([[Monster]])
 - ([[Monster]])

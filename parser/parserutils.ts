@@ -102,7 +102,7 @@ export function extractFromDict<T>(dict: { [key: string]: T }, content: string, 
     return results;
 }
 
-export function extractOptions(content: string, abilityDict: {[key: string]: Ability}, itemDict: {[key: string]: Item}, monsterDict: {[key: string]: Monster}, fileName: string): Option[]{
+export function extractOptions(content: string, fileName: string): Option[]{
     const optionsSectionRegex = new RegExp(`## Options:\r?\n\r?\n([\\s\\S]*?)$`, 'g');
     const optionsSectionMatch = optionsSectionRegex.exec(content);
 

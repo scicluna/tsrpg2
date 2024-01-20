@@ -10,8 +10,8 @@ export interface BaseScenario {
 }
 
 export interface EncounterScenario extends BaseScenario {
+    description: string;
     monsters: Monster[];
-    loot: string[];
     music?: string;
 }
 

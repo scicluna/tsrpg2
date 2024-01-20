@@ -8,7 +8,8 @@ export async function parseAll(){
         const abilityDict = await abilityParser();
         const itemDict = await itemParser();
         const monsterDict = await parseMonster(abilityDict!, itemDict!);
-        const scenarioDict = await parseScenario(abilityDict!, itemDict!, monsterDict!);
+        const scenarioDict = await parseScenario(monsterDict!);
+        console.log(scenarioDict)
     } catch (error) {
         console.log(error)
     }
