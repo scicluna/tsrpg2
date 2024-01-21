@@ -1,5 +1,5 @@
 import fs from 'fs/promises';
-import { extractNumber, extractString, isTypeOf, parseStatusEffect } from './parserutils';
+import { extractNumber, extractString, isTypeOf, parseBooleanValue, parseStatusEffect } from './parserutils';
 import { Ability, AbilityType, DamageType, MagicAbility, SkillAbility, VALID_ABILITY_TYPE, VALID_DAMAGE_TYPE } from '@/types/ability';
 import { StatChange, VALID_STAT_CHANGE_KEYS } from '@/types/items';
 
@@ -38,8 +38,8 @@ export async function abilityParser(){
             throw new Error(`Invalid damage type '${rawDamageType}' in file ${fileName}`);
         }
 
-        const self = extractString(fileContent, 'Self')?.trim().toLocaleLowerCase() === 'true' || false;
-        const aoe = extractString(fileContent, 'AOE')?.trim().toLocaleLowerCase() === 'true' || false;
+        const self = parseBooleanValue(extractString(fileContent, 'Self'), 'Self', fileName);
+        const aoe = parseBooleanValue(extractString(fileContent, 'AOE'), 'AOE', fileName);
         
         const statusEffect = parseStatusEffect(fileContent) || undefined;
         if (statusEffect && statusEffect.statChange){

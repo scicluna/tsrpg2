@@ -1,12 +1,21 @@
+import MainGame from "@/components/MainGame";
 import { parseAll } from "@/parser/main"
-import { Hero } from "@/types/creatures";
+import { WorldLedger } from "@/types/ledger";
+import { getHero } from "@/utils/getHero";
 
 export default async function Home() {
 
-  const worldLedger = await parseAll();
-  console.log(worldLedger)
-
-  return (
-     <main>hi</main>
-  )
+  try {
+    const worldLedger: WorldLedger = await parseAll();
+    if (!worldLedger) {
+      throw new Error(`World failed to parse - problem unknown`);
+    }
+    const hero = getHero(worldLedger);
+    return (
+      <MainGame worldLedger={worldLedger} hero={hero}/>
+   )
+  } catch (err: any){
+    return <h1>Error: {err.message}</h1>
+  }
 }
+

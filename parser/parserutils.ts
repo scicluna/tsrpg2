@@ -185,3 +185,18 @@ export function extractConnectedLocations(content: string): {locationName: strin
     }
     return results;
 }
+
+export function parseBooleanValue(value: string | null, fieldName: string, fileName: string): boolean {
+    if (value === null) {
+        throw new Error(`Required field '${fieldName}' is missing in file ${fileName}`);
+    }
+
+    const trimmedValue = value.trim().toLowerCase();
+    if (trimmedValue === 'true') {
+        return true;
+    } else if (trimmedValue === 'false') {
+        return false;
+    } else {
+        throw new Error(`Invalid value for '${fieldName}' in file ${fileName}. Expected 'true' or 'false', got '${value}'.`);
+    }
+}

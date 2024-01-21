@@ -1,5 +1,5 @@
 import { Ability, DamageType } from "./ability";
-import { Item } from "./items";
+import { Equipment, Item } from "./items";
 import { WorldLocation } from "./location";
 import { StatusEffect } from "./status";
 
@@ -25,10 +25,15 @@ export interface Monster extends Creature {
 export interface Hero extends Creature {
     level: number;
     xp: number;
-    mana: number; 
+    maxMp: number;
+    mp: number; 
     inventory: Item[];
     gold: number;
     location: WorldLocation;
     timeElapsed: number;
-
+    equipped: {
+        weapon: Equipment | null;
+        armor: Equipment | null;
+        accessory: Equipment | null;
+    }
 }

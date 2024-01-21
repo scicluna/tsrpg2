@@ -1,16 +1,12 @@
 import { Consumable, ConsumableType, Equipment, EquipmentType, Item, ItemType, VALID_CONSUMABLE_TYPES, VALID_EQUIPMENT_TYPES } from '@/types/items';
 import fs from 'fs/promises';
-import { extractList, extractNumber, extractString, isPartOfStringType, parseOutcomes } from './parserutils';
+import { extractList, extractNumber, extractString, isPartOfStringType, parseBooleanValue, parseOutcomes } from './parserutils';
 import { Outcome, OutcomeType } from '@/types/optionoutcome';
 
 export async function itemParser(){
-    try {
-        const consumables = await parseConsumables('consumables');
-        const equipment = await parseEquipment('equipment');
-        return {...consumables, ...equipment};
-    } catch(e){
-        console.log(e);
-    }
+    const consumables = await parseConsumables('consumables');
+    const equipment = await parseEquipment('equipment');
+    return {...consumables, ...equipment};
 }
 
 async function parseConsumables(consumableDir: string){
@@ -36,8 +32,8 @@ async function parseConsumables(consumableDir: string){
             throw new Error(`Invalid consumable type '${consumableType}' in file ${fileName}`);
         }
 
-        const self = extractString(fileContent, 'Self')?.trim().toLocaleLowerCase() === 'true' || false;
-        const aoe = extractString(fileContent, 'AOE')?.trim().toLocaleLowerCase() === 'true' || false;
+        const self = parseBooleanValue(extractString(fileContent, 'Self'), 'Self', fileName);
+        const aoe = parseBooleanValue(extractString(fileContent, 'AOE'), 'AOE', fileName);
 
         const outcomes = extractList(fileContent, 'Outcomes');
         if (!outcomes){
