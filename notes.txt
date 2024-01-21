@@ -1,0 +1,14 @@
+load/parse world - possibly in chunks
+init player object
+init initial scene
+
+Once the initial scene starts - if we design things right - it will just play all the way to the end while in the gameplay loop.
+
+gameplay loop:
+travel to location
+Encounter/Dialogue
+do Encounter/Dialogue
+Either get linked to another encounter/Dialogue
+or get a prompt to move locations
+repeat.
+

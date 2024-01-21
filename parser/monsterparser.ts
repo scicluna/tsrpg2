@@ -2,6 +2,7 @@ import fs from 'fs/promises';
 import { Ability, DamageType, VALID_DAMAGE_TYPE } from "@/types/ability";
 import {extractFromDict, extractList, extractNumber, extractString, isTypeOf } from './parserutils';
 import { Item } from '@/types/items';
+import { Monster } from '@/types/creatures';
 
 export async function parseMonster(abilityDict: { [key: string]: Ability }, itemDict: { [key: string]: Item }) {
     const monsterFiles = await fs.readdir('./world/monsters', 'utf-8');
@@ -31,19 +32,19 @@ export async function parseMonster(abilityDict: { [key: string]: Ability }, item
             throw new Error(`Required field 'Defense' is missing in file ${fileName}`);
         }
 
-        const resistances = extractList(fileContent, 'Resistances') || [];
+        const resistances = extractList(fileContent, 'Resistances') as Record<DamageType, string | number>[] || [];
         resistances.forEach((resistance) => {
             const resistanceType = Object.keys(resistance)[0];
             if (!isTypeOf<DamageType>(VALID_DAMAGE_TYPE, resistanceType)){
-                throw new Error(`Invalid damage type '${resistance.type}' in file ${fileName}`);
+                throw new Error(`Invalid damage type '${resistanceType}' in file ${fileName}`);
             }
         });
 
-        const weaknesses = extractList(fileContent, 'Weaknesses') || [];
+        const weaknesses = extractList(fileContent, 'Weaknesses') as Record<DamageType, string | number>[] || [];
         weaknesses.forEach((vulnerability) => {
             const vulnerabilityType = Object.keys(vulnerability)[0];
             if (!isTypeOf<DamageType>(VALID_DAMAGE_TYPE, vulnerabilityType)){
-                throw new Error(`Invalid damage type '${vulnerability.type}' in file ${fileName}`);
+                throw new Error(`Invalid damage type '${vulnerabilityType}' in file ${fileName}`);
             }
         });
 
@@ -65,6 +66,7 @@ export async function parseMonster(abilityDict: { [key: string]: Ability }, item
         const monster: Monster = {
             name,
             hp,
+            maxHp: hp,
             damage,
             defense,
             resistances,

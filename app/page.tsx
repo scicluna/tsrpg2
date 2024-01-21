@@ -1,4 +1,5 @@
 import { parseAll } from "@/parser/main"
+import { Hero } from "@/types/creatures";
 
 export default async function Home() {
 
